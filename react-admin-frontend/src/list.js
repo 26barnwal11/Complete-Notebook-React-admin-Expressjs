@@ -1,8 +1,22 @@
 import React from 'react';
-import { List, Datagrid, TextField, Create, SimpleForm, ReferenceInput, SelectInput, ReferenceField, TextInput, Edit } from 'react-admin';
+import {Filter , List, Datagrid, TextField, Create, SimpleForm, ReferenceField, TextInput, Edit } from 'react-admin';
+
+const Header = () => {
+    return <p>NOTEBOOK</p>
+}
+
+const PostTitle = ({ record }) => {
+    return <span>{record ? `${record.title}` : ''}</span>;
+};
+
+const PostFilter = (props) => (
+    <Filter {...props}>
+        <TextInput label="Search" source="title" alwaysOn />
+    </Filter>
+);
 
 export const PostList = props => (
-    <List {...props}>
+    <List title={<Header/>} filters={<PostFilter/>} {...props}>
         <Datagrid>
             <ReferenceField source="id" reference="list">
                 <TextField source="title" />
@@ -13,7 +27,7 @@ export const PostList = props => (
 );
 
 export const PostEdit = props => (
-    <Edit {...props} undoable={false}>
+    <Edit title={<PostTitle/>} {...props} undoable={false}>
         <SimpleForm>
             <TextInput disabled source="id" />
             <TextInput source="title" />
